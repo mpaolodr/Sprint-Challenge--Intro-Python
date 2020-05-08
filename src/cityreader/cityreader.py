@@ -95,6 +95,8 @@ for c in cities:
 # Salt Lake City: (40.7774,-111.9301)
 
 # TODO Get latitude and longitude values from the user
+lat1, lon1 = input("Enter values for lat1, lon1: ").split(",")
+lat2, lon2 = input("Enter values for lat2, lon2: ").split(",")
 
 
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
@@ -102,7 +104,52 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
     within = []
 
     # TODO Ensure that the lat and lon valuse are all floats
+    c_lat1 = float(lat1)
+    c_lat2 = float(lat2)
+    c_lon1 = float(lon1)
+    c_lon2 = float(lon2)
+
+    # normalize values
+    n_lat1 = None
+    n_lat2 = None
+    n_lon1 = None
+    n_lon2 = None
+
+    #  based on pattern, Lat1 and Lon1 are should always be greater than lat2 lon2
+    # if lat1 and lon1 are less than lat2 and lon2 switch their values
+    if c_lat1 > c_lat2:
+        n_lat1 = c_lat1
+        n_lat2 = c_lat2
+
+        if c_lon1 > c_lon2:
+            n_lon1 = c_lon1
+            n_lon2 = c_lon2
+
+        else:
+            n_lon1 = c_lon2
+            n_lon2 = c_lon1
+
+    else:
+        n_lat1 = c_lat2
+        n_lat2 = c_lat1
+
+        if c_lon1 > c_lon2:
+            n_lon1 = c_lon1
+            n_lon2 = c_lon2
+        else:
+            n_lon1 = c_lon2
+            n_lon2 = c_lon1
+
+    # check if values are normalized
+    print(f"{n_lat1}, {n_lat2}, {n_lon1}, {n_lon2}")
+
     # Go through each city and check to see if it falls within
     # the specified coordinates.
+
+    for city in cities:
+        if(float(city.lat) <= n_lat1 and float(city.lat) >= n_lat2) and (float(city.lon) >= n_lon2 and float(city.lon) <= n_lon1):
+            within.append(city)
+        else:
+            pass
 
     return within
